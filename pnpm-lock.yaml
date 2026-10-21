@@ -688,8 +688,8 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
       undici:
-        specifier: ^6.19.2
-        version: 6.20.1
+        specifier: ^6.28.1
+        version: 6.28.1
       wireit:
         specifier: 'catalog:'
         version: 0.14.12
@@ -8910,8 +8910,8 @@ packages:
   undici-types@7.25.0:
     resolution: {integrity: sha512-AXNgS1Byr27fTI+2bsPEkV9CxkT8H6xNyRI68b3TatlZo3RkzlqQBLL+w7SmGPVpokjHbcuNVQUWE7FRTg+LRA==}
 
-  undici@6.20.1:
-    resolution: {integrity: sha512-AjQF1QsmqfJys+LXfGTNum+qw4S88CojRInG/6t31W/1fk6G59s92bnAvGz5Cmur+kQv2SURXEvvudLmbrE8QA==}
+  undici@6.28.1:
+    resolution: {integrity: sha512-zWpdTVD54H48CIybL0rWQ3ukpb9d23wM7eH5RtfdmeP70cWHNjtfo7P4vZX+5CoDcO53J4Pu5uXp7lNfjc6DRA==}
     engines: {node: '>=18.17'}
 
   undici@7.24.8:
@@ -17646,7 +17646,7 @@ snapshots:
 
   undici-types@7.25.0: {}
 
-  undici@6.20.1: {}
+  undici@6.28.1: {}
 
   undici@7.24.8: {}
 
