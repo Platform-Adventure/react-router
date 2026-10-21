@@ -43,7 +43,7 @@
     "@remix-run/node-fetch-server": "^0.13.3",
     "compression": "^1.8.1",
     "express": "^5.2.1",
-    "morgan": "^1.10.1",
+    "morgan": "^1.12.1",
     "source-map-support": "^0.5.21"
   },
   "peerDependencies": {
