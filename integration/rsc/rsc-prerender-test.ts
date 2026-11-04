@@ -1,3 +1,6 @@
+import * as fs from "node:fs";
+import * as path from "node:path";
+
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 
@@ -181,5 +184,37 @@ test.describe("rsc prerender", () => {
       .getByTestId("root-error-boundary")
       .textContent();
     expect(errorBoundary).toBe("Root Error Boundary");
+  });
+
+  test("escapes redirect location and pathname in prerendered redirect HTML", async ({
+    vitePreview,
+  }) => {
+    const { cwd } = await prerender({
+      files: async () => ({
+        "app/routes/redirect.tsx": js`
+          import { redirect } from "react-router";
+          export function loader() {
+            return redirect('/x"><script>alert(1)</script>', 301);
+          }
+          export default function Route() {
+            return null;
+          }
+        `,
+      }),
+      prerender: ["/", "/redirect"],
+      vitePreview,
+    });
+
+    const html = fs.readFileSync(
+      path.join(cwd, "build/client/redirect/index.html"),
+      "utf8",
+    );
+    expect(html).not.toContain("<script>");
+    expect(html).toContain(
+      '<meta http-equiv="refresh" content="0;url=/x&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;">',
+    );
+    expect(html).toContain(
+      '<a href="/x&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;">',
+    );
   });
 });
