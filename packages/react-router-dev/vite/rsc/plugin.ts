@@ -802,16 +802,18 @@ export default assetsManifest.clientVersion;
         // A short delay causes Google to interpret the redirect as temporary.
         // https://developers.google.com/search/docs/crawling-indexing/301-redirects#metarefresh
         let delay = response.status === 302 ? 2 : 0;
+        let escapedLocation = escapeHtmlAttribute(location ?? "");
+        let escapedPathname = escapeHtmlAttribute(url.pathname);
         let redirectBody = isRedirect
           ? `<!doctype html>
 <head>
-<title>Redirecting to: ${location}</title>
-<meta http-equiv="refresh" content="${delay};url=${location}">
+<title>Redirecting to: ${escapedLocation}</title>
+<meta http-equiv="refresh" content="${delay};url=${escapedLocation}">
 <meta name="robots" content="noindex">
 </head>
 <body>
-	<a href="${location}">
-  Redirecting from <code>${url.pathname}</code> to <code>${location}</code>
+	<a href="${escapedLocation}">
+  Redirecting from <code>${escapedPathname}</code> to <code>${escapedLocation}</code>
 </a>
 </body>
 </html>`
@@ -957,4 +959,20 @@ function getPrerenderConcurrencyConfig(
     concurrency = prerender.concurrency ?? 1;
   }
   return concurrency;
+}
+
+const HTML_ATTRIBUTE_ESCAPE_REGEX = /[&<>"']/g;
+const HTML_ATTRIBUTE_ESCAPE_LOOKUP: { [match: string]: string } = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
+};
+
+function escapeHtmlAttribute(value: string) {
+  return value.replace(
+    HTML_ATTRIBUTE_ESCAPE_REGEX,
+    (match) => HTML_ATTRIBUTE_ESCAPE_LOOKUP[match],
+  );
 }
