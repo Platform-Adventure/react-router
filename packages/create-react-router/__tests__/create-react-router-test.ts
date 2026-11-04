@@ -412,6 +412,26 @@ describe("create-react-router CLI", () => {
     expect(existsSync(path.join(projectDir, "app/root.tsx"))).toBeTruthy();
   });
 
+  it("does not send the token to non-GitHub hosts ending in github.com", async () => {
+    let projectDir = getProjectDir("lookalike-github-host-with-token");
+
+    let { status, stderr } = await execCreateReactRouter({
+      args: [
+        projectDir,
+        "--template",
+        "https://evilgithub.com/template.tar.gz",
+        "--token",
+        "valid-token",
+        "--no-git-init",
+        "--no-install",
+      ],
+    });
+
+    expect(stderr.trim()).toBeFalsy();
+    expect(status).toBe(0);
+    expect(existsSync(path.join(projectDir, "package.json"))).toBeTruthy();
+  });
+
   it("fails for private github release tarballs", async () => {
     let projectDir = getProjectDir("private-release-tarball-no-token");
 
