@@ -38,6 +38,24 @@ let miscHandlers: Array<RequestHandler> = [
       },
     });
   }),
+  http.head("https://evilgithub.com/template.tar.gz", () => {
+    return new Response();
+  }),
+  http.get("https://evilgithub.com/template.tar.gz", async ({ request }) => {
+    if (request.headers.has("Authorization")) {
+      return new Response("Authorization header leaked", { status: 418 });
+    }
+
+    let fileBuffer = await fsp.readFile(
+      path.join(TEST_DIR, "fixtures", "template.tar.gz"),
+    );
+
+    return new Response(fileBuffer, {
+      headers: {
+        "Content-Type": "application/x-gzip",
+      },
+    });
+  }),
 ];
 
 let server = setupServer(...githubHandlers, ...miscHandlers);

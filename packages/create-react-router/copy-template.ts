@@ -210,7 +210,7 @@ async function downloadAndExtractTarball(
 ): Promise<void> {
   let resourceUrl = tarballUrl;
   let headers: HeadersInit = {};
-  let isGithubUrl = new URL(tarballUrl).host.endsWith("github.com");
+  let isGithubUrl = isGithubHost(new URL(tarballUrl).hostname);
   if (token && isGithubUrl) {
     headers.Authorization = `token ${token}`;
   }
@@ -398,6 +398,11 @@ function isValidGithubRepoUrl(
   } catch {
     return false;
   }
+}
+
+function isGithubHost(hostname: string) {
+  hostname = hostname.toLowerCase();
+  return hostname === "github.com" || hostname.endsWith(".github.com");
 }
 
 function isGithubRepoShorthand(value: string) {
