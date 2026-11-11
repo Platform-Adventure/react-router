@@ -18,7 +18,7 @@ catalog:
   "@vitejs/plugin-rsc": ~0.5.26
   react: ^19.2.7
   react-dom: ^19.2.7
-  react-server-dom-webpack: ^19.2.7
+  react-server-dom-webpack: ^19.2.9
   typescript: ^6.0.3
   tsdown: ^0.22.0
   wireit: 0.14.12
